@@ -1,22 +1,36 @@
-  const express = require('express');
-  const mongoose = require('mongoose');
-  const cors = require('cors');
-  require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv').config();
 
-  const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/auth');
 
-  const app = express();
-  app.use(cors({
-  origin: 'https://https://anime-website-chi-wheat.vercel.app/', // ⬅️ Replace with your real frontend Vercel URL
+const app = express();
+
+// ✅ Middleware
+app.use(cors({
+  origin: 'https://anime-website-chi-wheat.vercel.app', // ✅ Your Vercel frontend
   credentials: true
-}))
-  app.use(express.json());
+}));
+app.use(express.json());
 
-  mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('MongoDB connected'))
-    .catch(err => console.error(err));
+// ✅ MongoDB connection (cleaned)
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log('✅ MongoDB connected'))
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
-  app.use('/api/auth', authRoutes);
+// ✅ Routes
+app.use('/api/auth', authRoutes);
 
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.get('/', (req, res) => {
+  res.json({ message: '✅ Backend is working fine!' });
+});
+
+
+app.get('/api/test', (req, res) => {
+  res.send('✅ Backend is working!');
+});
+
+// ✅ Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
