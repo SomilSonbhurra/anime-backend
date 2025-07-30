@@ -2,12 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-
-dotenv.config();
-
 const app = express();
 
-
+dotenv.config();
 
 const authRoutes = require('./routes/auth');
 
@@ -29,6 +26,7 @@ mongoose.connect(process.env.MONGO_URI, {
 
 //  Routes
 app.use('/api/auth', authRoutes);
+
 
 app.get('/api/test', (req, res) => {
   res.json({ message: "Backend connected successfully!" });

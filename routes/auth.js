@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const router = express.Router();
+const router = express.Router();  
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // LOGIN or REGISTER
@@ -39,7 +39,7 @@ router.post('/login', async (req, res) => {
     res.status(200).json({ token, user: userData });
   } catch (err) {
     console.error('Login error:', err);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: err.message || 'Server error' });
   }
 });
 
